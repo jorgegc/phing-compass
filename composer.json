@@ -1,0 +1,11 @@
+{
+    "name": "jorgegc/phing-compass",
+    "description": "A collection of targets for Compass.",
+    "type": "library",
+    "keywords": [
+        "phing",
+        "compass"
+    ],
+    "license": "GPL-2.0+",
+    "minimum-stability": "dev"
+}
