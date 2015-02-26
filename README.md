@@ -3,7 +3,7 @@ Phing Compass
 
 ## Overview
 
-A collection of targets for Compass.
+A collection of Compass targets for Phing.
 
 ## Installation
 

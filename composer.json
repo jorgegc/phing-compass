@@ -1,6 +1,6 @@
 {
     "name": "jorgegc/phing-compass",
-    "description": "A collection of targets for Compass.",
+    "description": "A collection of Compass targets for Phing.",
     "type": "library",
     "keywords": [
         "phing",
