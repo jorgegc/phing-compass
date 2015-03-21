@@ -8,12 +8,11 @@
 
   <!-- ## Targets -->
 
-  <target name="compass:compile"
-          description="Compiles Sass files through bundler."
-          depends="compass:clean">
+  <target name="compass:init"
+          description="Setup steps for Compass build tasks.">
     <fail unless="compass.themedir"
           message="Please provide a compass.themedir property." />
-    <exec command="bundle exec compass compile -e production --force"
+    <exec command="bundle install"
           dir="${compass.themedir}"
           passthru="true"
           logoutput="true"
@@ -22,8 +21,6 @@
 
   <target name="compass:clean"
           description="Deletes old Sass files through bundler.">
-    <fail unless="compass.themedir"
-          message="Please provide a compass.themedir property." />
     <exec command="bundle exec compass clean"
           dir="${compass.themedir}"
           passthru="true"
@@ -31,10 +28,19 @@
           checkreturn="true" />
   </target>
 
+  <target name="compass:compile"
+          description="Compiles Sass files through bundler."
+          depends="compass:init, compass:clean">
+    <exec command="bundle exec compass compile -e production --force"
+          dir="${compass.themedir}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+  </target>
+
   <target name="compass:watch"
-          description="Watches Sass files for changes and compiles them through bundler.">
-    <fail unless="compass.themedir"
-          message="Please provide a compass.themedir property." />
+          description="Watches Sass files for changes and compiles them through bundler."
+          depends="compass:init">
     <exec command="bundle exec compass watch -e development"
           dir="${compass.themedir}"
           passthru="true"
