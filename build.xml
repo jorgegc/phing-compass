@@ -10,8 +10,6 @@
 
   <target name="compass:init"
           description="Setup steps for Compass build tasks.">
-    <fail unless="compass.themedir"
-          message="Please provide a compass.themedir property." />
     <exec command="bundle install"
           dir="${compass.themedir}"
           passthru="true"
