@@ -1,11 +1,14 @@
 {
     "name": "jorgegc/phing-compass",
     "description": "A collection of Compass targets for Phing.",
-    "type": "library",
     "keywords": [
         "phing",
         "compass"
     ],
+    "homepage": "https://github.com/jorgegc/phing-compass",
     "license": "GPL-2.0+",
-    "minimum-stability": "dev"
+    "support": {
+        "issues": "https://github.com/jorgegc/phing-compass",
+        "source": "https://github.com/jorgegc/phing-compass"
+    }
 }
