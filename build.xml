@@ -8,8 +8,8 @@
 
   <!-- ## Targets -->
 
-  <target name="compass:init"
-          description="Setup steps for Compass build tasks.">
+  <target name="compass:config"
+          description="Configures Compass for the project.">
     <exec command="bundle install"
           dir="${compass.themedir}"
           passthru="true"
@@ -28,7 +28,7 @@
 
   <target name="compass:compile"
           description="Compiles Sass files through bundler."
-          depends="compass:init, compass:clean">
+          depends="compass:clean">
     <exec command="bundle exec compass compile -e production --force"
           dir="${compass.themedir}"
           passthru="true"
@@ -38,7 +38,7 @@
 
   <target name="compass:watch"
           description="Watches Sass files for changes and compiles them through bundler."
-          depends="compass:init">
+          depends="compass:clean">
     <exec command="bundle exec compass watch -e development"
           dir="${compass.themedir}"
           passthru="true"
