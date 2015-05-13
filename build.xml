@@ -46,4 +46,69 @@
           checkreturn="true" />
   </target>
 
+  <!-- ## Targets (RVM) -->
+
+  <target name="compass:config-rvm"
+          description="Configures Compass for the project using RVM."
+          depends="compass:load-properties-rvm">
+    <exec command="rvm ${compass.ruby.version} do rvm gemset create ${compass.ruby.gemset}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle install"
+          dir="${compass.themedir}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:clean-rvm"
+          description="Deletes old Sass files through bundler using RVM."
+          depends="compass:load-properties-rvm">
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass clean"
+          dir="${compass.themedir}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:compile-rvm"
+          description="Compiles Sass files through bundler using RVM."
+          depends="compass:clean-rvm">
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass compile -e production --force"
+          dir="${compass.themedir}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:watch-rvm"
+          description="Watches Sass files for changes and compiles them through bundler using RVM."
+          depends="compass:clean-rvm">
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass watch -e development"
+          dir="${compass.themedir}"
+          passthru="true"
+          logoutput="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:load-properties-rvm"
+          description="Load RVM specific properties used in this project."
+          hidden="true">
+    <loadfile property="compass.ruby.version" file="${compass.themedir}/.ruby-version">
+      <filterchain>
+        <striplinebreaks />
+      </filterchain>
+    </loadfile>
+    <loadfile property="compass.ruby.gemset" file="${compass.themedir}/.ruby-gemset">
+      <filterchain>
+        <striplinebreaks />
+      </filterchain>
+    </loadfile>
+  </target>
+
 </project>
