@@ -13,7 +13,6 @@
     <exec command="bundle install"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -22,7 +21,6 @@
     <exec command="bundle exec compass clean"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -32,7 +30,6 @@
     <exec command="bundle exec compass compile -e production --force"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -42,7 +39,6 @@
     <exec command="bundle exec compass watch -e development"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -53,16 +49,13 @@
           depends="compass:load-properties-rvm">
     <exec command="rvm ${compass.ruby.version} do rvm ${compass.ruby.version}@${compass.ruby.gemset} --create"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
-    <exec command="if [ ! $(gem list -i bundler) ]; then  rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler; fi"
+    <exec command="if [ ! $(gem list -i bundler) ]; then rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler; fi"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
     <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle install"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -72,7 +65,6 @@
     <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass clean"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -82,7 +74,6 @@
     <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass compile -e production --force"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
@@ -92,7 +83,6 @@
     <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass watch -e development"
           dir="${compass.themedir}"
           passthru="true"
-          logoutput="true"
           checkreturn="true" />
   </target>
 
