@@ -51,11 +51,11 @@
   <target name="compass:config-rvm"
           description="Configures Compass for the project using RVM."
           depends="compass:load-properties-rvm">
-    <exec command="rvm ${compass.ruby.version} do rvm gemset create ${compass.ruby.gemset}"
+    <exec command="rvm ${compass.ruby.version} do rvm ${compass.ruby.version}@${compass.ruby.gemset} --create"
           passthru="true"
           logoutput="true"
           checkreturn="true" />
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler"
+    <exec command="if [ ! $(gem list -i bundler) ]; then  rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler; fi"
           passthru="true"
           logoutput="true"
           checkreturn="true" />
