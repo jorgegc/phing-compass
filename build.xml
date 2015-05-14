@@ -4,22 +4,26 @@
 
   <!-- ## Properties -->
 
-  <property name="compass.themedir" value="" />
+  <property name="compass.cmd.install" value="bundle install" />
+  <property name="compass.cmd.clean"   value="bundle exec compass clean" />
+  <property name="compass.cmd.compile" value="bundle exec compass compile -e production --force" />
+  <property name="compass.cmd.watch"   value="bundle exec compass watch -e development" />
+  <property name="compass.project.dir" value="" />
 
   <!-- ## Targets -->
 
   <target name="compass:config"
           description="Configures Compass for the project.">
-    <exec command="bundle install"
-          dir="${compass.themedir}"
+    <exec command="${compass.cmd.install}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
 
   <target name="compass:clean"
           description="Deletes old Sass files through bundler.">
-    <exec command="bundle exec compass clean"
-          dir="${compass.themedir}"
+    <exec command="${compass.cmd.clean}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -27,8 +31,8 @@
   <target name="compass:compile"
           description="Compiles Sass files through bundler."
           depends="compass:clean">
-    <exec command="bundle exec compass compile -e production --force"
-          dir="${compass.themedir}"
+    <exec command="${compass.cmd.compile}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -36,8 +40,8 @@
   <target name="compass:watch"
           description="Watches Sass files for changes and compiles them through bundler."
           depends="compass:clean">
-    <exec command="bundle exec compass watch -e development"
-          dir="${compass.themedir}"
+    <exec command="${compass.cmd.watch}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -53,8 +57,8 @@
     <exec command="if [ ! $(gem list -i bundler) ]; then rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler; fi"
           passthru="true"
           checkreturn="true" />
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle install"
-          dir="${compass.themedir}"
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.install}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -62,8 +66,8 @@
   <target name="compass:clean-rvm"
           description="Deletes old Sass files through bundler using RVM."
           depends="compass:load-properties-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass clean"
-          dir="${compass.themedir}"
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.clean}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -71,8 +75,8 @@
   <target name="compass:compile-rvm"
           description="Compiles Sass files through bundler using RVM."
           depends="compass:clean-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass compile -e production --force"
-          dir="${compass.themedir}"
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.compile}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -80,8 +84,8 @@
   <target name="compass:watch-rvm"
           description="Watches Sass files for changes and compiles them through bundler using RVM."
           depends="compass:clean-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do bundle exec compass watch -e development"
-          dir="${compass.themedir}"
+    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.watch}"
+          dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
   </target>
@@ -89,12 +93,12 @@
   <target name="compass:load-properties-rvm"
           description="Load RVM specific properties used in this project."
           hidden="true">
-    <loadfile property="compass.ruby.version" file="${compass.themedir}/.ruby-version">
+    <loadfile property="compass.ruby.version" file="${compass.project.dir}/.ruby-version">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
-    <loadfile property="compass.ruby.gemset" file="${compass.themedir}/.ruby-gemset">
+    <loadfile property="compass.ruby.gemset" file="${compass.project.dir}/.ruby-gemset">
       <filterchain>
         <striplinebreaks />
       </filterchain>
