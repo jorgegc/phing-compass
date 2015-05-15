@@ -51,13 +51,13 @@
   <target name="compass:config-rvm"
           description="Configures Compass for the project using RVM."
           depends="compass:load-properties-rvm">
-    <exec command="rvm ${compass.ruby.version} do rvm ${compass.ruby.version}@${compass.ruby.gemset} --create"
+    <exec command="${rvm.cmd.version} do ${rvm.cmd.gemset} --create"
           passthru="true"
           checkreturn="true" />
-    <exec command="if [ ! $(gem list -i bundler) ]; then rvm ${compass.ruby.version}@${compass.ruby.gemset} do gem install bundler; fi"
+    <exec command="if ! $(${rvm.cmd.gemset} do gem list -i bundler); then ${rvm.cmd.gemset} do gem install bundler; fi"
           passthru="true"
           checkreturn="true" />
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.install}"
+    <exec command="${rvm.cmd.gemset} do ${compass.cmd.install}"
           dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
@@ -66,7 +66,7 @@
   <target name="compass:clean-rvm"
           description="Deletes old Sass files through bundler using RVM."
           depends="compass:load-properties-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.clean}"
+    <exec command="${rvm.cmd.gemset} do ${compass.cmd.clean}"
           dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
@@ -75,7 +75,7 @@
   <target name="compass:compile-rvm"
           description="Compiles Sass files through bundler using RVM."
           depends="compass:clean-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.compile}"
+    <exec command="${rvm.cmd.gemset} do ${compass.cmd.compile}"
           dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
@@ -84,7 +84,7 @@
   <target name="compass:watch-rvm"
           description="Watches Sass files for changes and compiles them through bundler using RVM."
           depends="compass:clean-rvm">
-    <exec command="rvm ${compass.ruby.version}@${compass.ruby.gemset} do ${compass.cmd.watch}"
+    <exec command="${rvm.cmd.gemset} do ${compass.cmd.watch}"
           dir="${compass.project.dir}"
           passthru="true"
           checkreturn="true" />
@@ -93,16 +93,18 @@
   <target name="compass:load-properties-rvm"
           description="Load RVM specific properties used in this project."
           hidden="true">
-    <loadfile property="compass.ruby.version" file="${compass.project.dir}/.ruby-version">
+    <loadfile property="rvm.ruby.version" file="${compass.project.dir}/.ruby-version">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
-    <loadfile property="compass.ruby.gemset" file="${compass.project.dir}/.ruby-gemset">
+    <loadfile property="rvm.ruby.gemset" file="${compass.project.dir}/.ruby-gemset">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
+    <property name="rvm.cmd.version" value="rvm ${rvm.ruby.version}" />
+    <property name="rvm.cmd.gemset"  value="rvm ${rvm.ruby.version}@${rvm.ruby.gemset}" />
   </target>
 
 </project>
