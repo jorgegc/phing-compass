@@ -54,7 +54,7 @@
     <exec command="${rvm.cmd.version} do ${rvm.cmd.gemset} --create"
           passthru="true"
           checkreturn="true" />
-    <exec command="if ! $(${rvm.cmd.gemset} do gem list -i bundler); then ${rvm.cmd.gemset} do gem install bundler; fi"
+    <exec command="if $(${rvm.cmd.gemset} do gem list --no-installed ^bundler$); then ${rvm.cmd.gemset} do gem install bundler; fi"
           passthru="true"
           checkreturn="true" />
     <exec command="${rvm.cmd.gemset} do ${compass.cmd.install}"
