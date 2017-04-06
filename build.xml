@@ -42,6 +42,66 @@
           checkreturn="true" />
   </target>
 
+  <!-- ## Targets (RBENV) -->
+
+  <target name="compass:config-rbenv"
+          description="Configures Compass for the project using RBENV."
+          depends="compass:load-properties-rbenv">
+    <exec command="rbenv install ${rbenv.ruby.version} --skip-existing"
+          passthru="true"
+          checkreturn="true" />
+    <exec command="rbenv gemset create ${rbenv.ruby.version} ${rbenv.ruby.gemset}"
+          passthru="true"
+          checkreturn="true" />
+    <exec command="${rbenv.cmd.gemset} gem install bundler"
+          passthru="true"
+          checkreturn="true" />
+    <exec command="${rbenv.cmd.gemset} ${compass.cmd.install}"
+          passthru="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:clean-rbenv"
+          description="Deletes old Sass files through bundler using RBENV."
+          depends="compass:load-properties-rbenv">
+    <exec command="${rbenv.cmd.gemset} ${compass.cmd.clean} ${compass.project.dir}"
+          passthru="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:compile-rbenv"
+          description="Compiles Sass files through bundler using RBENV."
+          depends="compass:clean-rbenv">
+    <exec command="${rbenv.cmd.gemset} ${compass.cmd.compile} ${compass.project.dir}"
+          passthru="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:watch-rbenv"
+          description="Watches Sass files for changes and compiles them through bundler using RBENV."
+          depends="compass:clean-rbenv">
+    <exec command="${rbenv.cmd.gemset} ${compass.cmd.watch} ${compass.project.dir}"
+          passthru="true"
+          checkreturn="true" />
+  </target>
+
+  <target name="compass:load-properties-rbenv"
+          description="Load RBENV specific properties used in this project."
+          hidden="true">
+    <loadfile property="rbenv.ruby.version" file="${project.basedir}/.ruby-version">
+      <filterchain>
+        <striplinebreaks />
+      </filterchain>
+    </loadfile>
+    <loadfile property="rbenv.ruby.gemset" file="${project.basedir}/.ruby-gemset">
+      <filterchain>
+        <striplinebreaks />
+      </filterchain>
+    </loadfile>
+    <property name="rbenv.cmd.version" value="RBENV_VERSION='${rbenv.ruby.version}'" />
+    <property name="rbenv.cmd.gemset"  value="RBENV_GEMSETS='${rbenv.ruby.gemset}'" />
+  </target>
+
   <!-- ## Targets (RVM) -->
 
   <target name="compass:config-rvm"
