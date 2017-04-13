@@ -10,6 +10,9 @@
   <property name="compass.cmd.watch"   value="bundle exec compass watch -e development" />
   <property name="compass.project.dir" value="" />
 
+  <property name="ruby.gemset.dir"  value="${project.basedir}" />
+  <property name="ruby.version.dir" value="${project.basedir}" />
+
   <!-- ## Targets -->
 
   <target name="compass:config"
@@ -88,18 +91,18 @@
   <target name="compass:load-properties-rbenv"
           description="Load RBENV specific properties used in this project."
           hidden="true">
-    <loadfile property="rbenv.ruby.version" file="${project.basedir}/.ruby-version">
+    <loadfile property="rbenv.ruby.version" file="${ruby.version.dir}/.ruby-version">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
-    <loadfile property="rbenv.ruby.gemset" file="${project.basedir}/.ruby-gemset">
+    <loadfile property="rbenv.ruby.gemset" file="${ruby.gemset.dir}/.ruby-gemset">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
     <property name="rbenv.cmd.version" value="RBENV_VERSION='${rbenv.ruby.version}'" />
-    <property name="rbenv.cmd.gemset"  value="RBENV_GEMSETS='${rbenv.ruby.gemset}'" />
+    <property name="rbenv.cmd.gemset"  value="${rbenv.cmd.version} RBENV_GEMSETS='${rbenv.ruby.gemset}'" />
   </target>
 
   <!-- ## Targets (RVM) -->
@@ -145,12 +148,12 @@
   <target name="compass:load-properties-rvm"
           description="Load RVM specific properties used in this project."
           hidden="true">
-    <loadfile property="rvm.ruby.version" file="${project.basedir}/.ruby-version">
+    <loadfile property="rvm.ruby.version" file="${ruby.gemset.dir}/.ruby-version">
       <filterchain>
         <striplinebreaks />
       </filterchain>
     </loadfile>
-    <loadfile property="rvm.ruby.gemset" file="${project.basedir}/.ruby-gemset">
+    <loadfile property="rvm.ruby.gemset" file="${ruby.version.dir}/.ruby-gemset">
       <filterchain>
         <striplinebreaks />
       </filterchain>
